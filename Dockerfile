@@ -11,7 +11,7 @@ RUN npm run build
 # Production Stage
 #FROM docker.io/nginx:alpine
 #FROM registry.access.redhat.com/ubi9/nginx-122
-FROM nginx:1.25-alpine
+FROM docker.io/nginx:1.25-alpine
 
 
 # Create writable temp directories
