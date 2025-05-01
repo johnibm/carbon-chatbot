@@ -7,8 +7,8 @@ This is a simple chatbot UI built with IBM's Carbon Design System, deployed easi
 1. **Build your container:**
 
 ```bash
-docker build -t yourusername/carbon-chatbot:latest .
-docker push yourusername/carbon-chatbot:latest
+podman build -t yourusername/carbon-chatbot:latest .
+pdoman push yourusername/carbon-chatbot:latest
 ```
 
 2. **Deploy to OpenShift:**
