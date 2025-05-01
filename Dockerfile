@@ -20,7 +20,7 @@ RUN mkdir -p /tmp/nginx/client_temp /tmp/nginx/proxy_temp /tmp/nginx/fastcgi_tem
 
 # Copy the custom nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
-
+RUN chmod 644 /etc/nginx/nginx.conf
 # Use a non-root user explicitly (OpenShift random UID will be assigned)
 USER 1001
 
