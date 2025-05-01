@@ -11,7 +11,7 @@ import {
   Column,
   Stack
 } from '@carbon/react';
-import { Send16 } from '@carbon/react';
+import { Send16 } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 
