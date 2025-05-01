@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carbon-chatbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: carbon-chatbot
+  template:
+    metadata:
+      labels:
+        app: carbon-chatbot
+    spec:
+      containers:
+      - name: carbon-chatbot
+        image: yourusername/carbon-chatbot:latest
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: carbon-chatbot-service
+spec:
+  selector:
+    app: carbon-chatbot
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: carbon-chatbot-route
+spec:
+  to:
+    kind: Service
+    name: carbon-chatbot-service
+  port:
+    targetPort: 80
+  tls:
+    termination: edge
