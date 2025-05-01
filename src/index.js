@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import CarbonChatbot from './App_old';
+//import CarbonChatbot from '../old/App_old';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
