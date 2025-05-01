@@ -1,23 +1,5 @@
 import { Header, HeaderName } from 'carbon-components-react';
 import 'carbon-components/css/carbon-components.min.css';
-
-export default function FancyStreamingChatbot() {
-  return (
-    <div>
-      <Header aria-label="Carbon Chatbot">
-        <HeaderName href="#" prefix="IBM">
-          CarbonChat
-        </HeaderName>
-      </Header>
-      <main style={{ padding: '2rem' }}>
-        <h1>🚀 Welcome to Carbon Chatbot!</h1>
-        <p>Paste the full chatbot code here...</p>
-      </main>
-    </div>
-  );
-}
-
-
 import React, { useState } from 'react';
 import {
   Button,
@@ -32,6 +14,7 @@ import {
 import { Send16 } from '@carbon/icons-react';
 import 'carbon-components/css/carbon-components.min.css';
 import ReactMarkdown from 'react-markdown';
+
 
 export default function CarbonChatbot() {
   const [input, setInput] = useState('');
@@ -48,7 +31,7 @@ export default function CarbonChatbot() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:11434/v1/chat/completions', {
+      const response = await fetch('http://$OLLAMA_HOST:11434/v1/chat/completions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
