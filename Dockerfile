@@ -12,5 +12,7 @@ RUN npm run build
 #FROM docker.io/nginx:alpine
 FROM registry.access.redhat.com/ubi9/nginx-122
 COPY --from=builder /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN mkdir -p /tmp/nginx/client_temp
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
