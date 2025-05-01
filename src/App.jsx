@@ -1,5 +1,5 @@
 import { Header, HeaderName } from '@carbon/react';
-//import '@carbon/carbon-components/css/carbon-components.min.css';
+import 'carbon-components/css/carbon-components.min.css';
 import React, { useState } from 'react';
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   Column,
   Stack
 } from '@carbon/react';
-import { Send16 } from 'react';
+import { Send16 } from '@carbon/icons-react';
 import ReactMarkdown from 'react-markdown';
 
 
