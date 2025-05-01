@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import CarbonChatbot from './App';
+import CarbonChatbot from './App_old';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <FancyStreamingChatbot />
+    <CarbonChatbot />
   </React.StrictMode>
 );
