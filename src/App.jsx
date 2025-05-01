@@ -1,5 +1,5 @@
 import { Header, HeaderName } from '@carbon/react';
-import '@carbon/carbon-components/css/carbon-components.min.css';
+//import '@carbon/carbon-components/css/carbon-components.min.css';
 import React, { useState } from 'react';
 import {
   Button,
