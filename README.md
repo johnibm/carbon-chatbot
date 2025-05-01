@@ -8,7 +8,7 @@ This is a simple chatbot UI built with IBM's Carbon Design System, deployed easi
 
 ```bash
 podman build -t yourusername/carbon-chatbot:latest .
-pdoman push yourusername/carbon-chatbot:latest
+podman push yourusername/carbon-chatbot:latest
 ```
 
 2. **Deploy to OpenShift:**
