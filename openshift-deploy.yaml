@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: carbon-chatbot
-        image: yourusername/carbon-chatbot:latest
+        image: quay.io/johnibm/carbon-chatbot:latest
         ports:
         - containerPort: 80
 
