@@ -4,7 +4,6 @@ FROM node:20 AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm i @carbon/react
-RUN npm install carbon-components
 RUN npm install
 COPY . .
 RUN npm run build
