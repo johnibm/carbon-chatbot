@@ -10,10 +10,8 @@ RUN npm run build
 
 # Production Stage
 #FROM docker.io/nginx:alpine
-#FROM registry.access.redhat.com/ubi9/nginx-122
-FROM docker.io/nginx:1.25-alpine
-
-
+FROM registry.access.redhat.com/ubi9/nginx-122
+USER 0
 # Create writable temp directories
 RUN mkdir -p /tmp/nginx/client_temp /tmp/nginx/proxy_temp /tmp/nginx/fastcgi_temp /tmp/nginx/uwsgi_temp /tmp/nginx/scgi_temp \
     && chown -R nginx:nginx /tmp/nginx
