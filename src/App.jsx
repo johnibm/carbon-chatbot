@@ -1,6 +1,6 @@
-import { Header, HeaderName } from '@carbon/react';
-import '@carbon/styles';
+import '@carbon/react';
 import React from 'react';
+import { useState } from 'react';
 import './App.scss';
 
 import {
@@ -13,8 +13,9 @@ import {
   Column,
   Stack
 } from '@carbon/react';
-import { Send16 } from '@carbon/icons-react';
+import { Send } from '@carbon/icons-react';
 import ReactMarkdown from 'react-markdown';
+
 
 
 export default function CarbonChatbot() {
@@ -32,11 +33,12 @@ export default function CarbonChatbot() {
     setError(null);
 
     try {
-      const response = await fetch('http://$OLLAMA_HOST:11434/v1/chat/completions', {
+      //const response = await fetch('http://$OLLAMA_HOST:11434/api/chat', {
+        const response = await fetch('http://ollama-route-demo-ollama-chatbot.apps.fusion101.hpdalab.com/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'llama3', // or any model you’ve pulled
+          model: 'zephyr:latest', // or any model you’ve pulled
           messages: [...messages, userMessage],
           stream: true
         })
@@ -128,7 +130,7 @@ export default function CarbonChatbot() {
               style={{ flexGrow: 1 }}
             />
             <Button
-              renderIcon={Send16}
+              renderIcon={Send}
               iconDescription="Send message"
               onClick={handleSend}
               disabled={loading || !input.trim()}
