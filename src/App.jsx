@@ -27,7 +27,7 @@ export default function CarbonChatbot() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [model, setModel] = useState('zephyr:latest');
+  const [model, setModel] = useState('granite3-dense');
   const assistantMessageIndexRef = useRef(null);
 
   const handleSend = async () => {
@@ -113,6 +113,7 @@ export default function CarbonChatbot() {
                 value={model}
                 onChange={(e) => setModel(e.target.value)}
               >
+                <SelectItem value="granite3-dense" text="granite3-dense" />
                 <SelectItem value="zephyr:latest" text="zephyr:latest" />
                 <SelectItem value="llama3" text="llama3" />
                 <SelectItem value="mistral" text="mistral" />
