@@ -11,7 +11,11 @@ import {
   Content,
   Grid,
   Column,
-  Stack
+  Stack,
+  Select,
+  SelectItem,
+  Accordion,
+  AccordionItem
 } from '@carbon/react';
 import { Send } from '@carbon/icons-react';
 import ReactMarkdown from 'react-markdown';
@@ -23,82 +27,69 @@ export default function CarbonChatbot() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [model, setModel] = useState('zephyr:latest');
   const assistantMessageIndexRef = useRef(null);
 
   const handleSend = async () => {
     if (!input.trim()) return;
-  
+
     const userMessage = { role: 'user', content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setLoading(true);
     setError(null);
-  
+
     try {
       const response = await fetch('http://ollama-route-demo-ollama-chatbot.apps.fusion101.hpdalab.com/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'zephyr:latest',
+          model, // <-- Use selected model
           messages: [...messages, userMessage],
           stream: true
         })
       });
-  
+
       if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-  
-      // Safely track assistant message index using useRef
+
       setMessages(prev => {
         const newIndex = prev.length;
         assistantMessageIndexRef.current = newIndex;
         return [...prev, { role: 'assistant', content: '' }];
       });
-  
+
       const reader = response.body.getReader();
       const decoder = new TextDecoder('utf-8');
       let partial = '';
-  
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-  
+
         partial += decoder.decode(value, { stream: true });
-  
-        // Process lines
-        //const lines = partial.split('\n').filter(line => line.trim() !== '');
-        //partial = ''; // Reset buffer for next read
-        const chunks = partial.split('\n');
-        partial = chunks.pop(); // Save the last incomplete line for next round
-        const lines = chunks.filter(line => line.trim() !== '');
-  
+
+        const lines = partial.split('\n').filter(line => line.trim() !== '');
+        partial = '';
+
         for (let line of lines) {
-         // if (line.startsWith('data:')) {
-            try {
-              let cleaned = line.trim();
-              if (cleaned.startsWith('data:')) {
-                cleaned = cleaned.replace(/^data:\s*/, '');
-              }
-              const json = JSON.parse(cleaned);
-              //const json = JSON.parse(line.replace(/^data:\s*/, ''));
-              //const json = JSON.parse(line);
-              //const delta = json.choices?.[0]?.delta?.content;
-              const delta = json.message?.content ?? json.choices?.[0]?.delta?.content;
-              if (delta) {
-                setMessages(prev => {
-                  const updated = [...prev];
-                  const index = assistantMessageIndexRef.current;
-                  const current = updated[index];
-                  updated[index] = {
-                    ...current,
-                    content: current.content + delta
-                  };
-                  return updated;
-                });
-              }
-            } catch (err) {
-              console.error('Stream JSON parse error:', err);
+          try {
+            const json = JSON.parse(line);
+            const delta = json.message?.content ?? json.choices?.[0]?.delta?.content;
+            if (delta) {
+              setMessages(prev => {
+                const updated = [...prev];
+                const index = assistantMessageIndexRef.current;
+                const current = updated[index];
+                updated[index] = {
+                  ...current,
+                  content: current.content + delta
+                };
+                return updated;
+              });
             }
-          //}
+          } catch (err) {
+            console.error('Stream JSON parse error:', err);
+          }
         }
       }
     } catch (err) {
@@ -108,13 +99,30 @@ export default function CarbonChatbot() {
       setLoading(false);
     }
   };
-  
-  
-  
+
   return (
     <Content>
       <Grid fullWidth style={{ padding: '2rem' }}>
-        <Column sm={4} md={8} lg={12}>
+        {/* Settings Sidebar */}
+        <Column sm={4} md={4} lg={3}>
+          <Accordion>
+            <AccordionItem title="⚙️ Settings">
+              <Select
+                id="model-select"
+                labelText="Select model"
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+              >
+                <SelectItem value="zephyr:latest" text="zephyr:latest" />
+                <SelectItem value="llama3" text="llama3" />
+                <SelectItem value="mistral" text="mistral" />
+              </Select>
+            </AccordionItem>
+          </Accordion>
+        </Column>
+
+        {/* Main Chat Section */}
+        <Column sm={4} md={8} lg={9}>
           <h1 style={{ marginBottom: '1rem' }}>💬 Carbon Chatbot</h1>
 
           <div
@@ -169,8 +177,4 @@ export default function CarbonChatbot() {
       </Grid>
     </Content>
   );
-
-
-   
 }
-
